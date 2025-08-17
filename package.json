@@ -6,19 +6,25 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build"
+    "build": "vite build",
+    "db:seed": "tsx --env-file=.env seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.12",
     "@tanstack/react-router": "^1.131.16",
     "@tanstack/react-start": "^1.131.16",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.1",
     "lucide-react": "^0.539.0",
+    "mongoose": "^8.17.1",
     "postcss": "^8.5.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -30,6 +36,9 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.4",
     "tw-animate-css": "^1.3.6",
     "typescript": "^5.9.2",
     "vite-tsconfig-paths": "^5.1.4"

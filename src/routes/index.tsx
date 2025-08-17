@@ -3,6 +3,26 @@ import * as fs from 'node:fs';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { Button } from '@/components/ui/button';
+import { faker } from '@faker-js/faker';
+
+function createRandomUser() {
+  const firstName = faker.person.firstName();
+  const lastName = faker.person.lastName();
+
+  return {
+    _id: faker.string.uuid(),
+    avatar: faker.image.avatar(),
+    birthday: faker.date.birthdate(),
+    email: faker.internet.email({ firstName, lastName }),
+    firstName: firstName,
+    lastName: lastName,
+    sex: faker.person.sexType(),
+    subscriptionTier: faker.helpers.arrayElement(['free', 'basic', 'business']),
+  };
+}
+
+const users = Array.from({ length: 5 }, createRandomUser);
+console.log(users);
 
 const filePath = 'count.txt';
 
