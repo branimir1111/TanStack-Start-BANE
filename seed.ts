@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import dbConnect from './src/server/db';
 import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
 import User, { IUser } from './src/server/models/User';
@@ -22,18 +23,17 @@ const createRandomUser = (): Partial<IUser> => {
   return {
     firstName,
     lastName,
-    username: faker.internet.userName({ firstName, lastName }),
+    username: faker.internet.username({ firstName, lastName }),
     email: faker.internet.email({ firstName, lastName }),
-    password: 'password123',
+    password: 'riminarb',
     role: 'user',
   };
 };
 
-// --- GLAVNA ASINHRONA FUNKCIJA ZA IZVRŠAVANJE ---
 const seedDatabase = async () => {
   try {
     console.log('Povezivanje sa MongoDB bazom...');
-    await mongoose.connect(MONGO_URI);
+    await dbConnect();
     console.log('✅ Uspešno povezan sa bazom.');
 
     console.log('Brisanje postojećih korisnika...');
@@ -41,7 +41,6 @@ const seedDatabase = async () => {
     console.log('✅ Postojeći korisnici obrisani.');
 
     console.log(`Generisanje ${NUM_USERS_TO_CREATE} novih korisnika...`);
-    // TypeScript sada zna da je `usersToCreate` niz objekata koji liče na IUser
     const usersToCreate: Partial<IUser>[] = Array.from(
       { length: NUM_USERS_TO_CREATE },
       createRandomUser

@@ -1,62 +1,55 @@
-// src/routes/index.tsx
-import * as fs from 'node:fs';
+// import * as fs from 'node:fs';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { Button } from '@/components/ui/button';
-import { faker } from '@faker-js/faker';
 
-function createRandomUser() {
-  const firstName = faker.person.firstName();
-  const lastName = faker.person.lastName();
+// const filePath = 'count.txt';
 
-  return {
-    _id: faker.string.uuid(),
-    avatar: faker.image.avatar(),
-    birthday: faker.date.birthdate(),
-    email: faker.internet.email({ firstName, lastName }),
-    firstName: firstName,
-    lastName: lastName,
-    sex: faker.person.sexType(),
-    subscriptionTier: faker.helpers.arrayElement(['free', 'basic', 'business']),
-  };
-}
+// async function readCount() {
+//   return parseInt(
+//     await fs.promises.readFile(filePath, 'utf-8').catch(() => '0')
+//   );
+// }
 
-const users = Array.from({ length: 5 }, createRandomUser);
-console.log(users);
+// const getCount = createServerFn({
+//   method: 'GET',
+// }).handler(() => {
+//   return readCount();
+// });
 
-const filePath = 'count.txt';
+// const updateCount = createServerFn({ method: 'POST' })
+//   .validator((d: number) => d)
+//   .handler(async ({ data }) => {
+//     const count = await readCount();
+//     await fs.promises.writeFile(filePath, `${count + data}`);
+//   });
 
-async function readCount() {
-  return parseInt(
-    await fs.promises.readFile(filePath, 'utf-8').catch(() => '0')
-  );
-}
-
-const getCount = createServerFn({
+export const greet = createServerFn({
   method: 'GET',
-}).handler(() => {
-  return readCount();
-});
-
-const updateCount = createServerFn({ method: 'POST' })
-  .validator((d: number) => d)
-  .handler(async ({ data }) => {
-    const count = await readCount();
-    await fs.promises.writeFile(filePath, `${count + data}`);
+})
+  .validator((data: string) => data)
+  .handler(async (ctx) => {
+    return `Hello, ${ctx.data}!`;
   });
 
 export const Route = createFileRoute('/')({
   component: Home,
-  loader: async () => await getCount(),
+  // loader: async () => await getCount(),
 });
 
 function Home() {
   const router = useRouter();
   const state = Route.useLoaderData();
 
+  const bane = greet({
+    data: 'John',
+  });
+
+  console.log(bane);
+
   return (
     <div>
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           updateCount({ data: 1 }).then(() => {
@@ -65,7 +58,7 @@ function Home() {
         }}
       >
         Add 1 to {state}?
-      </button>
+      </button> */}
       <Button>Click me</Button>
     </div>
   );
